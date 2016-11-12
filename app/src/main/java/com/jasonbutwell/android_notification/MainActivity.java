@@ -23,22 +23,6 @@ public class MainActivity extends Activity {
         // Build our initial Notification using NotificationCompat.Builder
         // This ensures compatibility with earlier API Levels from Android 4 upwards
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(android.R.drawable.sym_action_chat)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
-
-        // Creates an explicit intent for an Activity in your app
-
-        Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
-
-        // The stack builder object will contain an artificial back stack for the
-        // started Activity.
-
-        // This ensures that navigating backward from the Activity leads out of
-        // your application to the Home screen.
-
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
         // Adds the back stack for the Intent (but not the Intent itself)
@@ -47,9 +31,30 @@ public class MainActivity extends Activity {
 
         // Adds the Intent that starts the Activity to the top of the stack
 
+        Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
+
         stackBuilder.addNextIntent(resultIntent);
 
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent( 0, PendingIntent.FLAG_UPDATE_CURRENT );
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(android.R.drawable.sym_action_chat)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!")
+                        .setContentIntent(resultPendingIntent)                                          // the content intent - define that here
+                        .addAction(android.R.drawable.sym_action_chat, "Chat",resultPendingIntent)      // action 1 - set action and the intent to call
+                        .addAction(android.R.drawable.sym_action_email, "Email",resultPendingIntent)    // action 2 - set action and the intent to call
+                        .addAction(android.R.drawable.sym_action_call, "Call",resultPendingIntent);     // action 2 - set action and the intent to call
+
+        // Creates an explicit intent for an Activity in your app
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+
 
         mBuilder.setContentIntent(resultPendingIntent);
 
